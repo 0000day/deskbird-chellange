@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
-const API_URL = 'http://localhost:3000';
+import { environment } from '../../../environments/environment';
 
 export interface LoginRequest {
   email: string;
@@ -35,7 +34,7 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = API_URL;
+  private readonly apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
