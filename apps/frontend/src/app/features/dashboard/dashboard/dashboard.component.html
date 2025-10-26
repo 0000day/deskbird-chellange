@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+  
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>DBC Dashboard</h1>
+    <div class="user-info" *ngIf="user$ | async as user">
+      <span>Welcome, {{ user.firstName }} {{ user.lastName }}</span>
+      <span class="role-badge" [class]="'role-' + user.role.toLowerCase()">
+        {{ user.role }}
+      </span>
+      <p-button 
+        label="Logout" 
+        icon="pi pi-sign-out"
+        severity="secondary"
+        size="small"
+        (onClick)="logout()">
+      </p-button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="dashboard-content">
+    
+    <!-- Admin Content -->
+    <div *ngIf="isAdmin$ | async">
+      <p-tabView>
+        <p-tabPanel header="User Management" leftIcon="pi pi-users">
+          <app-user-management [isAdmin]="true"></app-user-management>
+        </p-tabPanel>
+        <p-tabPanel header="Statistics" leftIcon="pi pi-chart-bar">
+          <p-card header="Dashboard Statistics">
+            <p>Here could be additional admin features...</p>
+          </p-card>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+
+    <!-- User Content -->
+    <div *ngIf="!(isAdmin$ | async)">
+      <p-tabView>
+        <p-tabPanel header="User List" leftIcon="pi pi-users">
+          <app-user-management [isAdmin]="false"></app-user-management>
+        </p-tabPanel>
+        <p-tabPanel header="My Profile" leftIcon="pi pi-user">
+          <p-card header="Your Profile">
+            <p>Here could be user profile settings...</p>
+          </p-card>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+
+  </div>
+</div>
