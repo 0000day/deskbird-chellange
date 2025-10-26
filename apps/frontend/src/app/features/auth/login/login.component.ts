@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
+// Services
 
 // NgRx
 import * as AuthActions from '../../../store/auth/auth.actions';
@@ -26,7 +27,6 @@ import { AuthState } from '../../../store/auth/auth.state';
     InputTextModule,
     PasswordModule,
     ButtonModule,
-    MessageModule,
     ProgressSpinnerModule
   ],
   templateUrl: './login.component.html',
@@ -35,14 +35,12 @@ import { AuthState } from '../../../store/auth/auth.state';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading$: Observable<boolean>;
-  error$: Observable<string | null>;
 
   constructor(
     private formBuilder: FormBuilder,
     private store: Store<{ auth: AuthState }>
   ) {
     this.loading$ = this.store.select(state => state.auth.loading);
-    this.error$ = this.store.select(state => state.auth.error);
   }
 
   ngOnInit(): void {

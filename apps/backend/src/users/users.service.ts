@@ -8,7 +8,6 @@ export class UsersService {
 
   async findAll(): Promise<UserResponseDto[]> {
     return this.prisma.user.findMany({
-      where: { isActive: true },
       select: {
         id: true,
         email: true,
@@ -25,7 +24,7 @@ export class UsersService {
 
   async findOne(id: number): Promise<UserResponseDto | null> {
     return this.prisma.user.findUnique({
-      where: { id, isActive: true },
+      where: { id },
       select: {
         id: true,
         email: true,
@@ -50,9 +49,12 @@ export class UsersService {
       throw new BadRequestException('User not found');
     }
 
+    // Remove email from update data - emails cannot be changed
+    const { email, ...updateData } = updateUserDto;
+
     return this.prisma.user.update({
       where: { id },
-      data: updateUserDto,
+      data: updateData,
       select: {
         id: true,
         email: true,
@@ -67,6 +69,15 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
+    // Check if email already exists
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: createUserDto.email },
+    });
+
+    if (existingUser) {
+      throw new BadRequestException('Email address is already registered');
+    }
+
     // Hash password
     const bcrypt = require('bcrypt');
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
@@ -107,10 +118,9 @@ export class UsersService {
       throw new BadRequestException('You cannot delete your own account');
     }
 
-    // Soft delete by setting isActive to false
-    await this.prisma.user.update({
+    // Hard delete the user
+    await this.prisma.user.delete({
       where: { id },
-      data: { isActive: false },
     });
   }
 }

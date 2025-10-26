@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import Aura from '@primeuix/themes/aura';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 
 import { routes } from './app.routes';
@@ -24,6 +25,8 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura
       }
-    })
+    }),
+    ConfirmationService,
+    MessageService
   ]
 };

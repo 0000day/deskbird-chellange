@@ -32,5 +32,14 @@ export const authReducer = createReducer(
   })),
 
   // Wenn Logout
-  on(AuthActions.logout, () => initialAuthState)
+  on(AuthActions.logout, () => initialAuthState),
+
+  // Wenn User aus localStorage geladen wird
+  on(AuthActions.loadUserFromStorageSuccess, (state, { user, token }) => ({
+    ...state,
+    user,
+    token,
+    isLoggedIn: true,
+    loading: false
+  }))
 );

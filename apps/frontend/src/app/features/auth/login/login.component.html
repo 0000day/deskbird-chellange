@@ -1,21 +1,13 @@
 <div class="login-container">
-  <p-card header="Login" class="login-card">
+  <p-card header="DBS Login" class="login-card">
     <div class="card-content">
       
-      <!-- Error Message -->
-      <p-message 
-        *ngIf="error$ | async as error" 
-        severity="error" 
-        [text]="error"
-        class="error-message">
-      </p-message>
-
       <!-- Login Form -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
         
         <!-- Email Field -->
         <div class="field">
-          <label for="email">E-Mail</label>
+          <label for="email">Email</label>
           <input 
             pInputText 
             id="email" 
@@ -26,19 +18,19 @@
           
           <small 
             *ngIf="email?.invalid && email?.touched" 
-            class="error-text">
-            <span *ngIf="email?.errors?.['required']">E-Mail ist erforderlich</span>
-            <span *ngIf="email?.errors?.['email']">Bitte geben Sie eine gültige E-Mail ein</span>
+            class="error-text text-red-500">
+            <span *ngIf="email?.errors?.['required']">Email is required</span>
+            <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
           </small>
         </div>
 
         <!-- Password Field -->
         <div class="field">
-          <label for="password">Passwort</label>
+          <label for="password">Password</label>
           <p-password 
             id="password" 
             formControlName="password" 
-            placeholder="Ihr Passwort"
+            placeholder="Your password"
             [feedback]="false"
             [toggleMask]="true"
             [class.ng-invalid]="password?.invalid && password?.touched"
@@ -47,16 +39,16 @@
           
           <small 
             *ngIf="password?.invalid && password?.touched" 
-            class="error-text">
-            <span *ngIf="password?.errors?.['required']">Passwort ist erforderlich</span>
-            <span *ngIf="password?.errors?.['minlength']">Passwort muss mindestens 6 Zeichen haben</span>
+            class="error-text text-red-500">
+            <span *ngIf="password?.errors?.['required']">Password is required</span>
+            <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
           </small>
         </div>
 
         <!-- Submit Button -->
         <div class="button-container">
           <p-button 
-            label="Anmelden" 
+            label="Sign In" 
             type="submit"
             [disabled]="loginForm.invalid || (loading$ | async)"
             [loading]="loading$ | async"
@@ -68,7 +60,7 @@
 
       <!-- Demo Credentials -->
       <div class="demo-info">
-        <p><strong>Demo-Zugangsdaten:</strong></p>
+        <p><strong>Demo Credentials:</strong></p>
         <p>Admin: admin&#64;deskbird.com / admin#3771!</p>
         <p>User: john.doe&#64;deskbird.com / user123</p>
       </div>

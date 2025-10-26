@@ -9,7 +9,7 @@ import { CardModule } from 'primeng/card';
 import { TabViewModule } from 'primeng/tabview';
 
 // Components
-import { UserListComponent } from '../users/user-list.component';
+import { UserManagementComponent } from '../users/user-management/user-management.component';
 
 // NgRx
 import * as AuthActions from '../../store/auth/auth.actions';
@@ -23,7 +23,7 @@ import { AuthState } from '../../store/auth/auth.state';
     CardModule,
     ButtonModule,
     TabViewModule,
-    UserListComponent
+    UserManagementComponent
   ],
   template: `
     <div class="dashboard-container">
@@ -32,7 +32,7 @@ import { AuthState } from '../../store/auth/auth.state';
       <div class="dashboard-header">
         <h1>Deskbird Dashboard</h1>
         <div class="user-info" *ngIf="user$ | async as user">
-          <span>Willkommen, {{ user.firstName }} {{ user.lastName }}</span>
+          <span>Welcome, {{ user.firstName }} {{ user.lastName }}</span>
           <span class="role-badge" [class]="'role-' + user.role.toLowerCase()">
             {{ user.role }}
           </span>
@@ -52,12 +52,12 @@ import { AuthState } from '../../store/auth/auth.state';
         <!-- Admin Content -->
         <div *ngIf="isAdmin$ | async">
           <p-tabView>
-            <p-tabPanel header="Benutzer verwalten" leftIcon="pi pi-users">
-              <app-user-list></app-user-list>
+            <p-tabPanel header="User Management" leftIcon="pi pi-users">
+              <app-user-management [isAdmin]="true"></app-user-management>
             </p-tabPanel>
-            <p-tabPanel header="Statistiken" leftIcon="pi pi-chart-bar">
-              <p-card header="Dashboard Statistiken">
-                <p>Hier könnten weitere Admin-Features stehen...</p>
+            <p-tabPanel header="Statistics" leftIcon="pi pi-chart-bar">
+              <p-card header="Dashboard Statistics">
+                <p>Here could be additional admin features...</p>
               </p-card>
             </p-tabPanel>
           </p-tabView>
@@ -65,10 +65,16 @@ import { AuthState } from '../../store/auth/auth.state';
 
         <!-- User Content -->
         <div *ngIf="!(isAdmin$ | async)">
-          <p-card header="Ihr Dashboard">
-            <p>Willkommen im User-Dashboard!</p>
-            <p>Hier könnten User-spezifische Features stehen...</p>
-          </p-card>
+          <p-tabView>
+            <p-tabPanel header="User List" leftIcon="pi pi-users">
+              <app-user-management [isAdmin]="false"></app-user-management>
+            </p-tabPanel>
+            <p-tabPanel header="My Profile" leftIcon="pi pi-user">
+              <p-card header="Your Profile">
+                <p>Here could be user profile settings...</p>
+              </p-card>
+            </p-tabPanel>
+          </p-tabView>
         </div>
 
       </div>

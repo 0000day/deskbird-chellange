@@ -17,3 +17,10 @@ export const loginFailure = createAction(
 );
 
 export const logout = createAction('[Auth] Logout');
+
+export const loadUserFromStorage = createAction('[Auth] Load User From Storage');
+
+export const loadUserFromStorageSuccess = createAction(
+  '[Auth] Load User From Storage Success',
+  props<{ user: any; token: string }>()
+);

@@ -50,4 +50,12 @@ export class AuthService {
   updateUser(id: number, userData: Partial<User>): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/users/${id}`, userData);
   }
+
+  createUser(userData: Partial<User>): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/users`, userData);
+  }
+
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/users/${id}`);
+  }
 }

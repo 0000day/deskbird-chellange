@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService } from '../../core/services/auth.service';
+import { ToastService } from '../../core/services/toast.service';
 import * as AuthActions from './auth.actions';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class AuthEffects {
   private actions$ = inject(Actions);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private toastService = inject(ToastService);
 
   // Login Effect
   login$ = createEffect(() => {
@@ -24,11 +26,12 @@ export class AuthEffects {
               token: response.access_token 
             })
           ),
-          catchError(error => 
-            of(AuthActions.loginFailure({ 
+          catchError(error => {
+            this.toastService.showError('Invalid credentials.');
+            return of(AuthActions.loginFailure({ 
               error: error.error?.message || 'Login failed' 
-            }))
-          )
+            }));
+          })
         )
       )
     );
@@ -60,5 +63,25 @@ export class AuthEffects {
       })
     ),
     { dispatch: false }
+  );
+
+  // Load User from Storage Effect
+  loadUserFromStorage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loadUserFromStorage),
+      switchMap(() => {
+        const token = localStorage.getItem('auth_token');
+        const userStr = localStorage.getItem('user');
+        
+        if (token && userStr) {
+          const user = JSON.parse(userStr);
+          return of(AuthActions.loadUserFromStorageSuccess({ user, token }));
+        }
+        
+        // Wenn keine Daten im localStorage, einfach zur Login-Seite ohne Error
+        this.router.navigate(['/login']);
+        return EMPTY; // Kein Action dispatchen
+      })
+    )
   );
 }
