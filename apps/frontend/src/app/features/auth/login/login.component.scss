@@ -3,19 +3,12 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 2rem;
 }
 
 .login-card {
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-}
-
-.card-content {
-  padding: 1rem;
 }
 
 .login-form {
@@ -30,14 +23,7 @@
   gap: 0.5rem;
 }
 
-.field label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.875rem;
-}
-
 .error-text {
-  color: #ef4444;
   font-size: 0.75rem;
   margin-top: 0.25rem;
 }
@@ -53,50 +39,14 @@
 .demo-info {
   margin-top: 2rem;
   padding: 1rem;
-  background: #f3f4f6;
-  border-radius: 8px;
-  border-left: 4px solid #3b82f6;
 }
 
 .demo-info p {
   margin: 0.5rem 0;
   font-size: 0.875rem;
-  color: #6b7280;
 }
 
 .demo-info p:first-child {
-  color: #374151;
   font-weight: 600;
   margin-bottom: 0.75rem;
-}
-
-/* PrimeNG Overrides */
-::ng-deep .p-card .p-card-header {
-  background: #667eea;
-  color: white;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-::ng-deep .p-inputtext.ng-invalid.ng-touched,
-::ng-deep .p-password.ng-invalid.ng-touched input {
-  border-color: #ef4444;
-}
-
-::ng-deep .p-button {
-  background: #667eea;
-  border-color: #667eea;
-  transition: all 0.2s ease;
-}
-
-::ng-deep .p-button:hover {
-  background: #5a67d8;
-  border-color: #5a67d8;
-  transform: translateY(-1px);
-}
-
-::ng-deep .p-button:disabled {
-  opacity: 0.6;
-  transform: none;
 }
