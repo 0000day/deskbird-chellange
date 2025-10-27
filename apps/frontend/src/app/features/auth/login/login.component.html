@@ -1,0 +1,63 @@
+<div class="login-container">
+  <p-card header="DBS Login" class="login-card">
+    <div class="card-content">
+      
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        
+        <!-- Email Field -->
+        <div class="field">
+          <label for="email">Email</label>
+          <input 
+            pInputText 
+            id="email" 
+            formControlName="email" 
+            placeholder="your.email@example.com"
+            [class.ng-invalid]="email?.invalid && email?.touched"
+            class="w-full" />
+          
+          <small 
+            *ngIf="email?.invalid && email?.touched" 
+            class="error-text text-red-500">
+            <span *ngIf="email?.errors?.['required']">Email is required</span>
+            <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+          </small>
+        </div>
+
+        <!-- Password Field -->
+        <div class="field">
+          <label for="password">Password</label>
+          <p-password 
+            id="password" 
+            formControlName="password" 
+            placeholder="Your password"
+            [feedback]="false"
+            [toggleMask]="true"
+            [class.ng-invalid]="password?.invalid && password?.touched"
+            styleClass="w-full">
+          </p-password>
+          
+          <small 
+            *ngIf="password?.invalid && password?.touched" 
+            class="error-text text-red-500">
+            <span *ngIf="password?.errors?.['required']">Password is required</span>
+            <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+          </small>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="button-container">
+          <p-button 
+            label="Sign In" 
+            type="submit"
+            [disabled]="loginForm.invalid || (loading$ | async)"
+            [loading]="loading$ | async"
+            styleClass="w-full">
+          </p-button>
+        </div>
+
+      </form>
+
+    </div>
+  </p-card>
+</div>

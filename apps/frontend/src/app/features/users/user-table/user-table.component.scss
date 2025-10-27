@@ -1,0 +1,36 @@
+/* Actions column styling */
+.actions-column {
+  width: 1px !important;
+  position: relative;
+  padding: 0 !important;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: var(--surface-overlay);
+  padding: 0.25rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.table-row:hover .action-buttons {
+  opacity: 1;
+  background: var(--p-datatable-row-background);
+}
+
+.inactive-text {
+  color: var(--text-color-secondary) !important;
+  opacity: 0.7;
+}
+
+::ng-deep .p-datatable th .p-sortable-column-icon {
+  vertical-align: middle;
+}

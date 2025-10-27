@@ -1,0 +1,10 @@
+.p-error {
+  color: #ef4444 !important;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+::ng-deep .ng-invalid.ng-touched {
+  border-color: #ef4444 !important;
+}

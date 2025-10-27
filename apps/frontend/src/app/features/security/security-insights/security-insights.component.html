@@ -1,0 +1,113 @@
+<div class="security-insights-container">
+  
+  <!-- Header -->
+  <div class="table-header">
+    <h2>Security Insights</h2>
+    <div class="header-actions">
+      <span class="subtitle">Real-time security monitoring and attack analysis</span>
+    </div>
+  </div>
+
+  <!-- Metrics Overview -->
+  <div class="metrics-grid">
+    <p-card *ngFor="let metric of securityMetrics" class="metric-card">
+      <div class="metric-content">
+        <div class="metric-header">
+          <span class="metric-label">{{ metric.label }}</span>
+          <p-tag [severity]="metric.severity" class="metric-tag"></p-tag>
+        </div>
+        <div class="metric-value" [class]="getSeverityClass(metric.severity)">
+          {{ metric.value }}
+        </div>
+        <div class="metric-change" [class]="getChangeClass(metric.change)">
+          <i [class]="getChangeIcon(metric.change)"></i>
+          <span>{{ metric.change > 0 ? '+' : '' }}{{ metric.change }}</span>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Charts and Analytics -->
+  <div class="analytics-section">
+    
+    <!-- Attack Timeline Chart -->
+    <p-card header="📈 Attack Timeline" class="chart-card">
+      <div class="chart-container" style="height: 400px;">
+        <p-chart 
+          type="line" 
+          [data]="chartData" 
+          [options]="chartOptions"
+          width="100%"
+          height="100%">
+        </p-chart>
+      </div>
+    </p-card>
+
+    <!-- Attacks by Country -->
+    <p-card header="🌍 Attacks by Country" class="country-card">
+      <div class="country-list">
+        <div *ngFor="let country of attacksByCountry" class="country-item">
+          <div class="country-info">
+            <span class="country-name">{{ country.country }}</span>
+          </div>
+          <div class="country-stats">
+            <div class="attack-count">{{ country.attacks }}</div>
+            <div class="attack-bar">
+              <div class="attack-progress" [style.width.%]="country.percentage"></div>
+            </div>
+            <div class="attack-percentage">{{ country.percentage }}%</div>
+          </div>
+        </div>
+      </div>
+    </p-card>
+
+  </div>
+
+  <!-- Recent Attack Attempts -->
+  <p-card header="⚡ Recent Attack Attempts" class="recent-attacks-card">
+    <p-table [value]="recentAttacks" [rows]="10" class="attacks-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>IP Address</th>
+          <th>Country</th>
+          <th>Username</th>
+          <th>Attempts</th>
+          <th>Timestamp</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-attack>
+        <tr>
+          <td>
+            <code class="ip-address">{{ attack.ip }}</code>
+          </td>
+          <td>
+            <div class="country-cell">
+              <span>{{ attack.country }}</span>
+            </div>
+          </td>
+          <td>
+            <code class="username">{{ attack.username }}</code>
+          </td>
+          <td>
+            <p-tag 
+              [value]="attack.attempts.toString()" 
+              [severity]="attack.attempts > 10 ? 'danger' : attack.attempts > 5 ? 'warning' : 'info'">
+            </p-tag>
+          </td>
+          <td class="timestamp">
+            {{ formatTimestamp(attack.timestamp) }}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="empty">
+        <tr>
+          <td colspan="5" class="text-center p-4">
+            <i class="pi pi-shield text-4xl text-green-500 mb-2"></i>
+            <p>No recent attacks detected</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+</div>

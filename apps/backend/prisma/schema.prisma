@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  role      UserRole @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model IpAddress {
+  id           Int      @id @default(autoincrement())
+  ipAddress    String   @unique @map("ip_address")
+  country      String?
+  city         String?
+  attackCount  Int      @default(1) @map("attack_count")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  attackAttempts AttackAttempt[]
+
+  @@map("ip_addresses")
+}
+
+model AttackAttempt {
+  id        Int      @id @default(autoincrement())
+  ipId      Int      @map("ip_id")
+  username  String
+  timestamp DateTime
+
+  // Relations
+  ipAddress IpAddress @relation(fields: [ipId], references: [id], onDelete: Cascade)
+
+  // Prevent duplicate attack attempts
+  @@unique([ipId, username, timestamp])
+  @@map("attack_attempts")
+}

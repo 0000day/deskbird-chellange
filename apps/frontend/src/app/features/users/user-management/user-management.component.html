@@ -1,0 +1,46 @@
+<div class="user-management-container">
+  
+  <!-- Table Header -->
+  <div class="table-header">
+    <h2>{{ isAdmin ? 'User Management' : 'User List' }}</h2>
+    <div class="header-actions">
+      <span>
+        <input 
+          pInputText 
+          type="text" 
+          [(ngModel)]="searchTerm"
+          placeholder="Search..." 
+          (ngModelChange)="filterUsers()" />
+      </span>
+      <p-button 
+        *ngIf="isAdmin"
+        label="Add User"
+        icon="pi pi-plus"
+        (onClick)="showAddUserDialog()">
+      </p-button>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <app-user-table
+    [users]="filteredUsers"
+    [showActions]="isAdmin"
+    [currentUserId]="currentUserId"
+    (edit)="editUser($event)"
+    (delete)="deleteUser($event)">
+  </app-user-table>
+
+</div>
+
+<!-- User Dialog -->
+<app-user-dialog
+  [(visible)]="userDialogVisible"
+  [isEditMode]="isEditMode"
+  [user]="selectedUser"
+  [loading]="loading"
+  (save)="onUserSave($event)"
+  (cancel)="onUserCancel()">
+</app-user-dialog>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

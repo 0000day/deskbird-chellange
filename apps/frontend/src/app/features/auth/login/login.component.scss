@@ -1,0 +1,36 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.error-text {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.error-message {
+  margin-bottom: 1rem;
+}
+
+.button-container {
+  margin-top: 1rem;
+}

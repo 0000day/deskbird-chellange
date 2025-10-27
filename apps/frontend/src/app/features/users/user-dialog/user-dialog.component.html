@@ -1,0 +1,111 @@
+<p-dialog 
+  [(visible)]="visible" 
+  [header]="isEditMode ? 'Edit User' : 'Add User'" 
+  [modal]="true" 
+  [style]="{ width: '450px' }"
+  [closable]="true"
+  (onHide)="onDialogHide()">
+  
+  <form [formGroup]="userForm" (ngSubmit)="onSave()">
+    
+    <!-- First Name -->
+    <div class="field mb-3">
+      <label for="firstName">First Name</label>
+      <input 
+        pInputText 
+        id="firstName" 
+        formControlName="firstName" 
+        class="w-full" 
+        [class.ng-invalid]="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched" />
+      <small class="p-error" *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched">
+        First name is required.
+      </small>
+    </div>
+
+    <!-- Last Name -->
+    <div class="field mb-3">
+      <label for="lastName">Last Name</label>
+      <input 
+        pInputText 
+        id="lastName" 
+        formControlName="lastName" 
+        class="w-full"
+        [class.ng-invalid]="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched" />
+      <small class="p-error" *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched">
+        Last name is required.
+      </small>
+    </div>
+
+    <!-- Email -->
+    <div class="field mb-3">
+      <label for="email">Email</label>
+      <input 
+        pInputText 
+        id="email" 
+        formControlName="email" 
+        class="w-full"
+        [class.ng-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched" />
+      <small class="p-error" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+        <span *ngIf="userForm.get('email')?.errors?.['required']">Email is required.</span>
+        <span *ngIf="userForm.get('email')?.errors?.['email']">Please enter a valid email address.</span>
+      </small>
+    </div>
+
+    <!-- Password -->
+    <div class="field mb-3" *ngIf="!isEditMode">
+      <label for="password">Password</label>
+      <input 
+        pInputText 
+        type="password"
+        id="password" 
+        formControlName="password" 
+        class="w-full"
+        [class.ng-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched" />
+      <small class="p-error" *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+        <span *ngIf="userForm.get('password')?.errors?.['required']">Password is required.</span>
+        <span *ngIf="userForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</span>
+      </small>
+    </div>
+
+    <!-- Role -->
+    <div class="field mb-3">
+      <label for="role">Role</label>
+      <p-dropdown 
+        formControlName="role"
+        [options]="roleOptions"
+        optionLabel="label"
+        optionValue="value"
+        [appendTo]="'body'"
+        class="w-full">
+      </p-dropdown>
+    </div>
+
+    <!-- Status -->
+    <div class="field mb-3">
+      <label for="isActive">Status</label>
+      <p-dropdown 
+        formControlName="isActive"
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+        [appendTo]="'body'"
+        class="w-full">
+      </p-dropdown>
+    </div>
+
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancel" 
+      severity="secondary" 
+      (onClick)="onCancel()">
+    </p-button>
+    <p-button 
+      [label]="isEditMode ? 'Save' : 'Create'"
+      (onClick)="onSave()"
+      [disabled]="userForm.invalid"
+      [loading]="loading">
+    </p-button>
+  </ng-template>
+</p-dialog>
