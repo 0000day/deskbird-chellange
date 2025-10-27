@@ -28,6 +28,7 @@
 - No cron job running - executing it manually to have _some_ data present (server has limited computation power)
 - Line chart is not responding to size changes - no responsiveness at all
 - Recent Attack Attempts Table is lacking features (sorting etc)
+- Data processing has a few bugs, some entries appear twice
 
 ## User Profile
 - Just a placeholder to have some more content for a better visual experience
