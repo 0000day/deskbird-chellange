@@ -29,3 +29,5 @@
 - Line chart is not responding to size changes - no responsiveness at all
 - Recent Attack Attempts Table is lacking features (sorting etc)
 
+## User Profile
+- Just a placeholder to have some more content for a better visual experience
